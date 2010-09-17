@@ -33,7 +33,7 @@ if [ -d $TEMP_DIR ]; then
 fi
 
 mkdir $TEMP_DIR
-pushed $TEMP_DIR
+pushd $TEMP_DIR
 echo 'python-redis'
 git clone http://github.com/andymccurdy/redis-py.git
 echo 'tornado-1.1'
