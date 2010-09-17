@@ -61,7 +61,10 @@ sleep 1
 echo 'modprobe aoe'
 sudo modprobe -v aoe
 
-echo '== Common parts is finished =='
+sleep 2
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+echo '+ Common packages installation is finished'
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 
 function install_compute {
   echo 'Install Compute-Node'
