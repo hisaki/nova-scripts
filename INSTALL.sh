@@ -4,7 +4,8 @@ BASE_DIR=/home/ohara/Projects/OpenStack/nova
 REDIS_DIR=$BASE_DIR/Redis
 TEMP_DIR=$BASE_DIR/Temp
 TODO_FILE=$BASE_DIR/README.todo
-BZR_LOGIN=your-nick-name-at-launchpad
+DATA_DIR=$BASE_DIR/data
+BZR_LOGIN=hisakister
 
 echo 'Assume that you already'
 echo '   - Install git-core'
@@ -76,7 +77,7 @@ function install_compute {
 
 function install_controller {
   echo 'Install Controller-Node'
-  sudo apt-get install rabbitmq-server
+  sudo apt-get install rabbitmq-server euca2ools
   echo 'redis-server'
   mkdir -p $REDIS_DIR
   pushd $REDIS_DIR
@@ -106,5 +107,25 @@ else
 fi
 
 echo '==  Finished =='
-exit 0
 
+sleep 2
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+echo '+ Auto-installation is finished'
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+
+if [ -d $DATA_DIR ]; then
+ rm -rf $DATA_DIR
+fi
+
+mkdir -p $DATA_DIR/keys
+mkdir -p $DATA_DIR/images
+mkdir -p $DATA_DIR/buckets
+mkdir -p $DATA_DIR/instances
+mkdir -p $DATA_DIR/networks
+ 
+sleep 2
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+echo '+ Completed.'
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+
+exit 0
