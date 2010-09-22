@@ -5,11 +5,12 @@ REDIS_DIR=$BASE_DIR/Redis
 TEMP_DIR=$BASE_DIR/Temp
 TODO_FILE=$BASE_DIR/README.todo
 DATA_DIR=$BASE_DIR/data
-BZR_LOGIN=hisakister
+BZR_LOGIN=your-user-name
 
 echo 'Assume that you already'
-echo '   - Install git-core'
-echo '   - Copy ~/.ssh/id_rsa.pub into launchpad'
+echo '   - installed git-core'
+echo '   - copied ~/.ssh/id_rsa.pub into launchpad'
+echo '   - change BZR_LOGIN per your name'
 
 echo -n 'Are you OK to proceed? [y/n] '
 read ANS
@@ -19,7 +20,9 @@ if [ $ANS != 'y' ]; then
   exit 0
 fi
 
-echo '== Install common packages and python libraries for nova =='
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+echo '+ Install common packages and python libraries'
+echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 sudo apt-get install -y bzr unzip curl build-essential
 sudo apt-get install -y aoetools vlan
 sudo apt-get install -y python-m2crypto python-ipy python-twisted-bin python-twisted-core python-twisted-web python-carrot python-boto python-daemon python-setuptools python-libxml2 python-dev python-libvirt
