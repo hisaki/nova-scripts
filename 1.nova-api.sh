@@ -11,4 +11,4 @@ NOVA_API_ARGS="--ca_path=${CA_DIR} --keys_path=${KEYS_PATH} ${NETWORK_ARGS}"
 
 echo ${NOVA_API_ARGS} > ${LOGFILE}
 
-bin/nova-api ${NOVA_API_ARGS} --nodaemon --verbose start 2>&1 |tee -a ${LOGFILE}
+bin/nova-api --FAKE_subdomain=ec2 ${NOVA_API_ARGS} --nodaemon --verbose start 2>&1 |tee -a ${LOGFILE}
