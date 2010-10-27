@@ -5,12 +5,11 @@ REDIS_DIR=$BASE_DIR/Redis
 TEMP_DIR=$BASE_DIR/Temp
 TODO_FILE=$BASE_DIR/README.todo
 DATA_DIR=$BASE_DIR/data
-BZR_LOGIN=your-user-name
+BZR_LOGIN=<your-user-name>
 
 echo 'Assume that you already'
-echo '   - installed git-core'
-echo '   - copied ~/.ssh/id_rsa.pub into launchpad'
-echo '   - change BZR_LOGIN per your name'
+echo '   - Installed git-core'
+echo '   - Copied ~/.ssh/id_rsa.pub into launchpad'
 
 echo -n 'Are you OK to proceed? [y/n] '
 read ANS
@@ -20,12 +19,14 @@ if [ $ANS != 'y' ]; then
   exit 0
 fi
 
-echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-echo '+ Install common packages and python libraries'
-echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+echo '== Install common packages and python libraries for nova =='
 sudo apt-get install -y bzr unzip curl build-essential
-sudo apt-get install -y aoetools vlan
+sudo apt-get install -y aoetools vlan ebtables iptables gawk
 sudo apt-get install -y python-m2crypto python-ipy python-twisted-bin python-twisted-core python-twisted-web python-carrot python-boto python-daemon python-setuptools python-libxml2 python-dev python-libvirt
+
+echo "libvirt in Ubuntu 10.04 will not work. You'll need to use Ubuntu 10.10 or
+download the latest libvirt and build it. In that case, execute
+ % apt-get remove python-libvirt libvirt-bin libvirt0" >> $TODO_FILE
 
 sleep 2
 
@@ -38,8 +39,8 @@ fi
 
 mkdir $TEMP_DIR
 pushd $TEMP_DIR
-echo 'python-redis'
-git clone http://github.com/andymccurdy/redis-py.git
+#echo 'python-redis'
+#git clone http://github.com/andymccurdy/redis-py.git
 echo 'tornado-1.1'
 wget http://github.com/downloads/facebook/tornado/tornado-1.1.tar.gz
 echo 'gflags'
@@ -48,7 +49,8 @@ echo 'python-gflags'
 wget http://python-gflags.googlecode.com/files/python-gflags-1.3.tar.gz
 popd
 
-echo "- Manual Install for python-redis, tornado, gflags and python-gflags" >> $TODO_FILE
+#echo "- Manual Install for python-redis, tornado, gflags and python-gflags" >> $TODO_FILE
+echo "- Manual Install for tornado, gflags and python-gflags" >> $TODO_FILE
 echo "  from $TEMP_DIR" >> $TODO_FILE
 
 sleep 1
@@ -70,6 +72,7 @@ echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 echo '+ Common packages installation is finished'
 echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 
+
 function install_compute {
   echo 'Install Compute-Node'
   sudo apt-get install -y kpartx kvm libvirt-bin libvirt0
@@ -81,12 +84,12 @@ function install_compute {
 function install_controller {
   echo 'Install Controller-Node'
   sudo apt-get install rabbitmq-server euca2ools
-  echo 'redis-server'
-  mkdir -p $REDIS_DIR
-  pushd $REDIS_DIR
-  wget http://redis.googlecode.com/files/redis-2.0.1.tar.gz
-  echo "- Manual install for redis-server from $REDIS_DIR" >> $TODO_FILE
-  popd
+#  echo 'redis-server'
+#  mkdir -p $REDIS_DIR
+#  pushd $REDIS_DIR
+#  wget http://redis.googlecode.com/files/redis-2.0.1.tar.gz
+#  echo "- Manual install for redis-server from $REDIS_DIR" >> $TODO_FILE
+#  popd
 }
 
 echo
@@ -128,7 +131,7 @@ mkdir -p $DATA_DIR/networks
  
 sleep 2
 echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-echo '+ Completed.'
+echo '+ Completed. Please see TODO file.'
 echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 
 exit 0
