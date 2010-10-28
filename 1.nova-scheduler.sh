@@ -16,7 +16,12 @@ LOGFILE=LOG_nova-scheduler_`date +%m%d-%H%M`
 # Not sure whether setting is required for multiple servers environment.
 #HOSTIP=192.168.11.15
 #HOST_ARGS="--redis_host=${HOSTIP} --rabbit_host=${HOSTIP} --s3_host=${HOSTIP}"
-NOVA_SCHEDULER_ARGS="--ca_path=${CA_DIR} --keys_path=${KEYS_PATH} ${NETWORK_ARGS} --images_path=${IMAGES_PATH} --use_s3=false --instances_path=${INSTANCES_PATH} --networks_path=${NETWORKS_PATH} ${HOST_ARGS}"
+
+MYSQL_PASS=nova
+SQL_CONN=mysql://root:${MYSQL_PASS}@localhost/nova
+
+NOVA_SCHEDULER_ARGS="--ca_path=${CA_DIR} --keys_path=${KEYS_PATH} ${NETWORK_ARGS} --images_path=${IMAGES_PATH} --use_s3=false --instances_path=${INSTANCES_PATH} --networks_path=${NETWORKS_PATH} ${HOST_ARGS} --sql_connection=${SQL_CONN}"
+#NOVA_SCHEDULER_ARGS="--ca_path=${CA_DIR} --keys_path=${KEYS_PATH} ${NETWORK_ARGS} --images_path=${IMAGES_PATH} --use_s3=false --instances_path=${INSTANCES_PATH} --networks_path=${NETWORKS_PATH} ${HOST_ARGS}"
 
 echo ${NOVA_SCHEDULER_ARGS} > ${LOGFILE}
 

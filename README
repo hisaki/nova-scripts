@@ -1,0 +1,42 @@
+These scripts are described for PERSONAL USE. NO GUARANTEE!
+
+Assumption
+- Evaluated on Ubuntu 10.04 (recommended 10.10, though..)
+- Use MySQL instead of sqlite
+- Have launchpad account
+
+1. Instalation
+./INSTALL.sh
+1-1. Manual installation..
+
+2. Create database for mysql
+mysql --user=root --password=nova -e 'drop database nova;'
+mysql --user=root --password=nova -e 'create database nova;'
+
+3. Execute scripts in each terminal (screen is recommended)
+In the case of 'Single Machine'
+./1.nova-{api,objectstore,compute,network,schedule}.sh
+
+In the case of 'Multiple Machines'
+- Control node
+./1.nova-{api,objectstore}.sh
+- Compute node
+Modify scripts so that several parameters point to control node.
+./1.nova-{compute,network}.sh
+It worked before. I don't know where nova-schedule should be put..
+#TODO Determine the place of nova-schedule. maybe in control node.
+
+4. euca-tools
+euca-bundle-image -i vmlinuz-2.6.32-23-server --kernel true
+euca-bundle-image -i initrd.img-2.6.32-23-server --ramdisk true
+euca-bundle-image -i ubuntu-lucid.img
+
+euca-upload-bundle -b mybucket -m /tmp/vmlinuz-2.6.32-23-server.manifest.xml
+euca-upload-bundle -b mybucket -m /tmp/initrd.img-2.6.32-23-server.manifest.xml
+euca-upload-bundle -b mybucket -m /tmp/ubuntu-lucid.img.manifest.xml
+
+kernel=$(euca-register mybucket/vmlinuz-2.6.32-23-server.manifest.xml | awk '{print $2}')
+ramdisk=$(euca-register mybucket/initrd.img-2.6.32-23-server.manifest.xml | awk '{print $2}')
+machine=$(euca-register mybucket/ubuntu-lucid.img.manifest.xml | awk '{print $2}')
+
+euca-run-instances $machine --kernel $kernel --ramdisk $ramdisk

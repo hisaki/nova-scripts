@@ -22,7 +22,8 @@ fi
 echo '== Install common packages and python libraries for nova =='
 sudo apt-get install -y bzr unzip curl build-essential
 sudo apt-get install -y aoetools vlan ebtables iptables gawk
-sudo apt-get install -y python-m2crypto python-ipy python-twisted-bin python-twisted-core python-twisted-web python-carrot python-boto python-daemon python-setuptools python-libxml2 python-dev python-libvirt
+sudo apt-get install -y mysql-server-5.1 python-mysqldb
+sudo apt-get install -y python-m2crypto python-ipy python-twisted-bin python-twisted-core python-twisted-web python-carrot python-boto python-daemon python-setuptools python-libxml2 python-dev python-libvirt python-routes
 
 echo "libvirt in Ubuntu 10.04 will not work. You'll need to use Ubuntu 10.10 or
 download the latest libvirt and build it. In that case, execute
@@ -47,17 +48,21 @@ echo 'gflags'
 wget http://google-gflags.googlecode.com/files/gflags-1.3.tar.gz
 echo 'python-gflags'
 wget http://python-gflags.googlecode.com/files/python-gflags-1.3.tar.gz
+echo 'python-eventlet'
+wget http://pypi.python.org/packages/source/e/eventlet/eventlet-0.9.12.tar.gz
+echo 'python-sqlalchemy'
+wget http://downloads.sourceforge.net/project/sqlalchemy/sqlalchemy/0.6.5/SQLAlchemy-0.6.5.tar.gz
 popd
 
 #echo "- Manual Install for python-redis, tornado, gflags and python-gflags" >> $TODO_FILE
-echo "- Manual Install for tornado, gflags and python-gflags" >> $TODO_FILE
-echo "  from $TEMP_DIR" >> $TODO_FILE
+echo "- Manual Install for tornado, gflags, python-gflags,
+python-eventlet and python-sqlalchemy from $TEMP_DIR
+If you use Ubuntu 10.10, you can install with apt-get" >> $TODO_FILE
 
 sleep 1
 
 echo 'Check out bzr repository from launchpad'
 pushd $BASE_DIR
-#bzr whoami $BZR_MAIL
 bzr lp-login $BZR_LOGIN
 bzr branch lp:nova trunk
 echo "- bzr whoami config" >> $TODO_FILE
@@ -78,7 +83,6 @@ function install_compute {
   sudo apt-get install -y kpartx kvm libvirt-bin libvirt0
   sudo apt-get install -y bridge-utils
   sudo modprobe kvm
-  echo "- Set up bridge" >> $TODO_FILE
 }
 
 function install_controller {
